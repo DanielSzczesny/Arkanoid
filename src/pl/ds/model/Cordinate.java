@@ -1,5 +1,9 @@
 package pl.ds.model;
 
+/**
+ * Klasa odpowiedzialna za wskazanie pozycji konkretnych punktów rozpoczęcia cegły (stała wysokość i szerokość cegły)
+ */
+
 public class Cordinate {
 
     private double x;

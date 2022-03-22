@@ -1,5 +1,10 @@
 package pl.ds.model;
 
+/**
+ * Klasa pojedynczej cegły, w zależności od poziomu 0/1/2 (wybieranego za pomocą Random)
+ * wystawiana ilość potrzebnych uderzeń aby zbić cegłę
+ */
+
 public class Brick {
 
     private BrickType brickType;
