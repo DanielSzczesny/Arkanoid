@@ -25,6 +25,9 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
+  <source path='controller'/>
+  <source path='model'/>
+  <source path='view'/>
 
   <!-- allow Super Dev Mode -->
   <add-linker name="xsiframe"/>

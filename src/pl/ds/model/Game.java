@@ -8,17 +8,17 @@ public class Game {
 
     private int lives;
     private int points;
-    private Dificulty dificulty;
+    private Difficulty difficulty;
     
     private Timer timer;
 
     private long time;
 
     private Game(GameBuilder builder) {
-        this.dificulty = builder.dificulty;
+        this.difficulty = builder.difficulty;
         this.lives = builder.lives;
         this.points = builder.points;
-        this.time = (long) (DEFAULT_TIME_FOR_GAME / dificulty.ballSpeedMultiplicant());
+        this.time = (long) (DEFAULT_TIME_FOR_GAME / difficulty.ballSpeedMultiplicant());
         init();
     }
 
@@ -30,10 +30,10 @@ public class Game {
 
         private int lives;
         private int points;
-        private Dificulty dificulty;
+        private Difficulty difficulty;
 
-        public GameBuilder(Dificulty dificulty) {
-            this.dificulty = dificulty;
+        public GameBuilder(Difficulty difficulty) {
+            this.difficulty = difficulty;
         }
 
         public GameBuilder lives(int lives) {
