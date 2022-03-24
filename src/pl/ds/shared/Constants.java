@@ -8,7 +8,7 @@ public class Constants {
     public static final int TIME_BETWEEN_FRAMES = 33; //ms ~30FPS
 
     //wielkości
-    public static final int CANVAS_HEIGHT = 800;
+    public static final int CANVAS_HEIGHT = 600;
     public static final int CANVAS_WIDTH = 1000;
     public static final int BALL_RADIUS = 10;
     public static final int BRICK_HEIGHT = 50;
@@ -34,7 +34,13 @@ public class Constants {
     public static final int ROCKET_X_POS = CANVAS_WIDTH / 2 - ROCKET_WIDTH;
     public static final int BALL_START_X_POS = CANVAS_WIDTH / 2 - BALL_RADIUS;
     public static final int BALL_START_Y_POS = ROCKET_Y_POS - (4 * BALL_RADIUS);
+    public static final double BRICK_X_START_POS = 0.0;
+    public static final double BRICK_Y_START_POS = 50.0;
 
     //teksty
     public static final String START = "CHOOSE YOUR DIFFICULTY AND CLICK THIS BUTTON TO START";
+    public static final String CANVAS_NOT_SUPPORTED = "Sorry, your browser doesn't support the HTML5 Canvas element";
+
+    //zdjęcia
+    public static String BACKGROUND_IMAGE = "background.jpg";
 }

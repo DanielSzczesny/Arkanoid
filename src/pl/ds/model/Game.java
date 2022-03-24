@@ -26,7 +26,19 @@ public class Game {
         timer = new Timer(Timer.getMinutes(time), Timer.getSeconds(time));
     }
 
-    private class GameBuilder {
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public static class GameBuilder {
 
         private int lives;
         private int points;

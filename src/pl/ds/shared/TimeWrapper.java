@@ -46,6 +46,9 @@ public class TimeWrapper {
             this.timer = timer;
     }
 
+    public void nextFrame() {
+        frameNumber++;
+    }
     public void setClock(Timer clock) {
         this.clock = clock;
     }

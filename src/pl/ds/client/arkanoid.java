@@ -32,10 +32,11 @@ public class arkanoid implements EntryPoint {
 
     RootPanel.get(menuDivTag).add(button);
     RootPanel.get(menuDivTag).add(difficulties);
+    canvasView = new CanvasView(Difficulty.valueOf(difficulties.getSelectedItemText()));
     timer = new Timer() {
       @Override
       public void run() {
-        canvasView.nextFrame();
+        canvasView.refreshCanvas();
       }
     };
     TimeWrapper.getInstance().setTimer(timer);
@@ -43,9 +44,11 @@ public class arkanoid implements EntryPoint {
       if (canvasView != null)
         RootPanel.get(canvasDivTag).remove(canvasView);
       timer.scheduleRepeating(TIME_BETWEEN_FRAMES);
-      canvasView = new CanvasView(Difficulty.valueOf(difficulties.getSelectedItemText()));
+
       RootPanel.get(canvasDivTag).add(canvasView);
 
     });
   }
 }
+
+

@@ -1,5 +1,11 @@
 package pl.ds.model;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+import static pl.ds.shared.Constants.*;
+
 /**
  * Klasa pojedynczej cegły, w zależności od poziomu 0/1/2 (wybieranego za pomocą Random)
  * wystawiana ilość potrzebnych uderzeń aby zbić cegłę
@@ -33,5 +39,18 @@ public class Brick {
 
     public Cordinate getCordinate() {
         return cordinate;
+    }
+
+    public static List<Brick> createBricks(int amountOfBricks) {
+        List<Brick> bricks = new LinkedList<>();
+        Random random = new Random();
+        double tempYPos = BRICK_Y_START_POS;
+
+        for (int i = 0; i < amountOfBricks; i++) {
+            bricks.add(new Brick(random.nextInt(2),new Cordinate(BRICK_X_START_POS, tempYPos)));
+            tempYPos += BRICK_WIDTH;
+        }
+
+        return bricks;
     }
 }
