@@ -38,6 +38,10 @@ public class Game {
         return points;
     }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public void lostLive() {
     }
 

@@ -1,12 +1,12 @@
 package pl.ds.controller;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.Timer;
-import pl.ds.model.Brick;
-import pl.ds.model.Cordinate;
-import pl.ds.model.Difficulty;
-import pl.ds.model.Game;
+import pl.ds.model.*;
 import pl.ds.shared.MouseListener;
+import pl.ds.shared.TimeWrapper;
 import pl.ds.view.CanvasView;
 import pl.ds.view.Presenter;
 
@@ -35,6 +35,7 @@ public class GameController implements Presenter {
     private CanvasView view;
     private List<Cordinate> ballCoordinates;
     private List<Brick> bricks;
+    private Brick brickToRemove;
     private Cordinate brickHitCoordinate;
 
     private boolean isStarted;
@@ -103,6 +104,10 @@ public class GameController implements Presenter {
         }
     }
 
+    /**
+     * Metody sterowania
+     * @param canvas
+     */
     @Override
     public void onKeyHit(Canvas canvas) {
         canvas.addMouseMoveHandler(mouseMoveEvent -> {
@@ -111,54 +116,235 @@ public class GameController implements Presenter {
             mouseMovementCore();
         });
         canvas.addClickHandler(clickEvent -> clickEvents());
-        canvas.addKeyDownHandler(keyDownEvent -> arrowSteering());
-        canvas.addKeyUpHandler(keyUpEvent -> holdRocketWhenKeyUp());
+        canvas.addKeyDownHandler(keyDownEvent -> arrowSteering(keyDownEvent));
+        canvas.addKeyUpHandler(keyUpEvent -> holdRocketWhenKeyUp(keyUpEvent));
     }
 
-    private void holdRocketWhenKeyUp() {
+    private void holdRocketWhenKeyUp(KeyUpEvent keyUpEvent) {
+        if (keyUpEvent.isRightArrow() && rocketXPos < ROCKET_MAX_RIGHT) {
+            slowdownSpeed = 5.0;
+        }
+        if (keyUpEvent.isLeftArrow() && rocketXPos >ROCKET_MAX_LEFT) {
+            slowdownSpeed = 5.0;
+        }
     }
 
-    private void arrowSteering() {
+    private void arrowSteering(KeyDownEvent keyDownEvent) {
+        if (keyDownEvent.isRightArrow() && rocketXPos < ROCKET_MAX_RIGHT) {
+            rocketCurrentSpeed = ROCKET_SPEED;
+            slowdownSpeed = 0.0;
+        }
+        if (keyDownEvent.isLeftArrow() && rocketXPos > ROCKET_MAX_LEFT) {
+            rocketCurrentSpeed = ROCKET_SPEED * -1;
+        }
+        if (keyDownEvent.isUpArrow() && !isStarted) {
+            startBall();
+        }
     }
 
     private void clickEvents() {
+        if (!isStarted && !ballMove) {
+            startBall();
+        }
     }
 
     private void mouseMovementCore() {
+        rocketXPos = MouseListener.getInstance().getMouseX() - ROCKET_WIDTH / 2;
+        if (rocketXPos + ROCKET_WIDTH >= CANVAS_WIDTH)
+            rocketXPos = CANVAS_WIDTH - ROCKET_WIDTH;
+        if (rocketXPos <= 0)
+            rocketXPos = 0;
+    }
+
+    private void startBall() {
+        ballYSpeed = BALL_SPEED * difficulty.ballSpeedMultiplicant();
+        ballXSpeed = BALL_SPEED * difficulty.ballSpeedMultiplicant();
+        isStarted = true;
+        ballMove = true;
+        startCountDown();
+    }
+
+    private void startCountDown() {
+        countdownTimer = new Timer() {
+            @Override
+            public void run() {
+                game.getTimer().timeElapse();
+            }
+        };
+        TimeWrapper.getInstance().setClock(countdownTimer);
+        countdownTimer.scheduleRepeating(ONE_SECOND_IN_MSECOND);
     }
 
     @Override
     public void rocketMove() {
+        if (rocketXPos < ROCKET_MAX_RIGHT & rocketCurrentSpeed > 0)
+            rocketXPos += rocketCurrentSpeed;
+        if (rocketXPos > ROCKET_MAX_LEFT & rocketCurrentSpeed < 0)
+            rocketXPos += rocketCurrentSpeed;
 
+        if (rocketCurrentSpeed > 0)
+            rocketCurrentSpeed -= slowdownSpeed;
+        if (rocketCurrentSpeed < 0)
+            rocketCurrentSpeed += slowdownSpeed;
     }
 
     @Override
     public void launchBall() {
+        ballGo();
+        ballBounceOfBorders();
+        ballBounceOfRocket();
+        ballBounceFromBrick();
+    }
 
+    /**
+     * Odbicie od cegiełki
+     */
+    private void ballBounceFromBrick() {
+        bricks.forEach(x -> {
+            if (isOnBrick(x)) {
+                x.setBrickLives(x.getBrickLives() - 1);
+                game.setPoints((int) (game.getPoints() + difficulty.ballSpeedMultiplicant() * 2));
+                if (x.getBrickLives() <= 0)
+                    brickToRemove = x;
+                ballBounceOfBrick();
+
+            }
+        });
+        bricks.remove(brickToRemove);
+    }
+
+    private void ballBounceOfBrick() {
+        if (brickHitCoordinate.getCordinateType().equals(CordinateType.BOTTOM)) {
+            ballYSpeed *= -1;
+        } else if (brickHitCoordinate.getCordinateType().equals(CordinateType.TOP)) {
+            ballYSpeed *= -1;
+        } else if (brickHitCoordinate.getCordinateType().equals(CordinateType.LEFT)) {
+            ballXSpeed *= -1;
+        } else if (brickHitCoordinate.getCordinateType().equals(CordinateType.RIGHT)) {
+            ballXSpeed *= -1;
+        }
+        //TODO dźwięk odbicia
+    }
+
+    private boolean isOnBrick(Brick brick) {
+        double bStartX = brick.getCordinate().getX();
+        double bStartY = brick.getCordinate().getY();
+        double bEndX = brick.getCordinate().getX() + BRICK_WIDTH;
+        double bEndY = brick.getCordinate().getY() + BRICK_HEIGHT;
+        return bounceCheck(bStartX, bStartY, bEndX, bEndY);
+    }
+
+    /**
+     * Odbicie od paletki/statku
+     */
+    private void ballBounceOfRocket() {
+        if (isOnRocket()) {
+            int equalizer = (ROCKET_WIDTH / 12);
+            int compressor = (ROCKET_WIDTH / equalizer);
+            int variable1 = (ROCKET_WIDTH / 17);
+            int variable2 = (ROCKET_WIDTH / 20);
+
+            for (int j = 0; j < ROCKET_WIDTH + equalizer; j = j + equalizer) {
+                if (ballXPos >= rocketXPos - ROCKET_WIDTH / compressor + j && ballXPos < rocketXPos + equalizer + j) {
+                    ballXSpeed = (-1 * ROCKET_WIDTH / 2 + j) / equalizer * difficulty.ballSpeedMultiplicant() * -1;
+                    ballYSpeed = (variable1 - Math.abs(-variable2 + j / equalizer)) * difficulty.ballSpeedMultiplicant();
+                }
+            }
+            ballYPos = ROCKET_Y_POS - BALL_RADIUS * 2;
+            //TODO dźwięk odbicia
+        }
+    }
+
+    private boolean isOnRocket() {
+        return bounceCheck(rocketXPos, rocketYPos, rocketXPos + ROCKET_WIDTH, rocketYPos + ROCKET_HEIGHT);
+    }
+
+    /**
+     * Ułożenie punktów do wprowadzenia
+     *      12********
+     *      |        |
+     *      ********34
+     * @param startXPos pozycja X w lewym górnym rogu
+     * @param startYPos pozycja Y w lewym górnym rogu
+     * @param endXPos pozycja X w prawym dolnym rogu
+     * @param endYPos pozycja Y w prawym dolnym rogu
+     * @return
+     */
+    private boolean bounceCheck(double startXPos, double startYPos, double endXPos, double endYPos) {
+        return ballCoordinates().stream().anyMatch(x -> {
+            double _x = x.getX();
+            double _y = x.getY();
+            if (_x >= startXPos && _x <= endXPos && _y >= startYPos && _y <= endYPos) {
+                setCoordinate(x);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void setCoordinate(Cordinate x) {
+        brickHitCoordinate = new Cordinate(x.getX(), x.getY(), x.getCordinateType());
+    }
+
+    /**
+     * cztery krawędzie piłki
+     * @return Lista punktów które mogą się odbijać
+     */
+    private List<Cordinate> ballCoordinates() {
+        ballCoordinates.clear();
+        ballCoordinates.add(new Cordinate(ballXPos + BALL_RADIUS, ballYPos, CordinateType.LEFT));
+        ballCoordinates.add(new Cordinate(ballXPos, ballYPos + BALL_RADIUS, CordinateType.TOP));
+        ballCoordinates.add(
+                new Cordinate(ballXPos + BALL_RADIUS, ballYPos + 2 * BALL_RADIUS, CordinateType.BOTTOM));
+        ballCoordinates.add(
+                new Cordinate(ballXPos + BALL_RADIUS * 2, ballYPos + BALL_RADIUS, CordinateType.RIGHT));
+        return ballCoordinates;
+    }
+
+    private void ballBounceOfBorders() {
+        if (ballXPos <= BALL_MIN_X || ballXPos >= BALL_MAX_X) {
+            ballXSpeed *= -1;
+            //TODO dźwięk odbicia
+        }
+        if (ballYPos <= BALL_MIN_Y || ballYPos >= BALL_MAX_Y) {
+            ballYSpeed *= -1;
+            //TODO dźwięk odbicia
+        }
+
+    }
+
+    /**
+     * Start piłki, początek po utracie życia/starcie nowej gry
+     */
+    private void ballGo() {
+        ballYPos -= ballYSpeed;
+        ballXPos -= ballXSpeed;
     }
 
     @Override
     public double getBallXPos() {
-        return 0;
+        return ballXPos;
     }
 
     @Override
     public double getBallYPos() {
-        return 0;
+        return ballYPos;
     }
 
     @Override
     public void putBricksToMemory() {
-
+        view.showBricks(bricks);
     }
 
     @Override
-    public double getRacketXPos() {
-        return 0;
+    public double getRocketXPos() {
+        return rocketXPos;
     }
 
     @Override
     public Game getGame() {
-        return null;
+        return game;
     }
+
+
 }

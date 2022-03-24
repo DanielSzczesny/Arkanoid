@@ -31,6 +31,10 @@ public class Cordinate {
         return y;
     }
 
+    public CordinateType getCordinateType() {
+        return cordinateType;
+    }
+
     @Override
     public String toString() {
         return "Cordinate{" +

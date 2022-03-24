@@ -12,6 +12,6 @@ public interface Presenter {
     double getBallXPos();
     double getBallYPos();
     void putBricksToMemory();
-    double getRacketXPos();
+    double getRocketXPos();
     Game getGame();
 }

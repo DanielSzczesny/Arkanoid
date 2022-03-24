@@ -15,8 +15,8 @@ public class MouseListener {
         return instance;
     }
 
-    private double mouseX;
-    private double mouseY;
+    protected double mouseX;
+    protected double mouseY;
 
     private MouseListener() {
         if (instance != null) {

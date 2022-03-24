@@ -36,6 +36,8 @@ public class Constants {
     public static final int BALL_START_Y_POS = ROCKET_Y_POS - (4 * BALL_RADIUS);
     public static final double BRICK_X_START_POS = 0.0;
     public static final double BRICK_Y_START_POS = 50.0;
+    public static final double POINTS_POSITION_X = CANVAS_WIDTH / 10.0 * 9;
+    public static final double POINTS_POSITION_Y = 30;
 
     //teksty
     public static final String START = "CHOOSE YOUR DIFFICULTY AND CLICK THIS BUTTON TO START";
