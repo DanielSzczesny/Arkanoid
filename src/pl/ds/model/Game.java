@@ -38,6 +38,9 @@ public class Game {
         return points;
     }
 
+    public void lostLive() {
+    }
+
     public static class GameBuilder {
 
         private int lives;

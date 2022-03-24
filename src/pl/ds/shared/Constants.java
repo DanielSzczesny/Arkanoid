@@ -8,7 +8,7 @@ public class Constants {
     public static final int TIME_BETWEEN_FRAMES = 33; //ms ~30FPS
 
     //wielkości
-    public static final int CANVAS_HEIGHT = 600;
+    public static final int CANVAS_HEIGHT = 500;
     public static final int CANVAS_WIDTH = 1000;
     public static final int BALL_RADIUS = 10;
     public static final int BRICK_HEIGHT = 50;

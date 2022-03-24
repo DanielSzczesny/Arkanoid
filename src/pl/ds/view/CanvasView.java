@@ -40,7 +40,7 @@ public class CanvasView extends Composite implements View{
         canvas.setStyleName("gameCanvas");
         canvas.setWidth(CANVAS_WIDTH + "px");
         canvas.setCoordinateSpaceWidth(CANVAS_WIDTH);
-        canvas.setHeight(CANVAS_WIDTH + "px");
+        canvas.setHeight(CANVAS_HEIGHT + "px");
         canvas.setCoordinateSpaceHeight(CANVAS_HEIGHT);
 
         addKeyListeners();
@@ -49,17 +49,12 @@ public class CanvasView extends Composite implements View{
         return canvas;
     }
 
-    @Override
-    public void nextFrame() {
-
-    }
-
     private void addKeyListeners() {
     }
 
     @Override
     public void refreshCanvas() {
-        CssColor color = CssColor.make(255, 255, 255);
+        CssColor color = CssColor.make(0, 0, 0);
 
         context.setFillStyle(color);
         context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -76,6 +71,16 @@ public class CanvasView extends Composite implements View{
 
     @Override
     public void showBall() {
+
+    }
+
+    @Override
+    public void gameOver() {
+
+    }
+
+    @Override
+    public void levelWon() {
 
     }
 }
