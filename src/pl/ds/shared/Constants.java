@@ -1,18 +1,20 @@
 package pl.ds.shared;
 
+import com.google.gwt.canvas.dom.client.CssColor;
+
 public class Constants {
 
     //czas
     public static final int ONE_SECOND_IN_MSECOND = 1000; // 1s = 1000ms
-    public static final long DEFAULT_TIME_FOR_GAME = 180000; //3 minuty
+    public static final long DEFAULT_TIME_FOR_GAME = 180000000; //3 minuty
     public static final int TIME_BETWEEN_FRAMES = 33; //ms ~30FPS
 
     //wielkości
-    public static final int CANVAS_HEIGHT = 500;
-    public static final int CANVAS_WIDTH = 1000;
+    public static final int CANVAS_HEIGHT = 800;
+    public static final int CANVAS_WIDTH = 1600;
     public static final int BALL_RADIUS = 10;
-    public static final int BRICK_HEIGHT = 50;
-    public static final int BRICK_WIDTH = 100;
+    public static final int BRICK_HEIGHT = 25;
+    public static final int BRICK_WIDTH = 80;
     public static final int ROCKET_HEIGHT = 30;
     public static final int ROCKET_WIDTH = 120; //łatwiej do obliczeń (-60o - 60o)
 
@@ -35,9 +37,9 @@ public class Constants {
     public static final int BALL_START_X_POS = CANVAS_WIDTH / 2 - BALL_RADIUS;
     public static final int BALL_START_Y_POS = ROCKET_Y_POS - (4 * BALL_RADIUS);
     public static final double BRICK_X_START_POS = 0.0;
-    public static final double BRICK_Y_START_POS = 50.0;
+    public static final double BRICK_Y_START_POS = 0.0;
     public static final double POINTS_POSITION_X = CANVAS_WIDTH / 10.0 * 9;
-    public static final double POINTS_POSITION_Y = 30;
+    public static final double POINTS_POSITION_Y = 70;
 
     //teksty
     public static final String START = "CHOOSE YOUR DIFFICULTY AND CLICK THIS BUTTON TO START";
@@ -45,4 +47,12 @@ public class Constants {
 
     //zdjęcia
     public static String BACKGROUND_IMAGE = "background.jpg";
+    public static String YELLOW_BRICK = "yellow.jpg";
+    public static String BLUE_ONE_BRICK = "blue_one.jpg";
+    public static String BLUE_TWO_BRICK = "blue_two.jpg";
+    public static String RED_ONE_BRICK = "red_one.jpg";
+    public static String RED_TWO_BRICK = "red_two.jpg";
+    public static String RED_THREE_BRICK = "red_three.jpg";
+    public static String BALL = "ball.jpg";
+    public static String ROCKET = "rocket.jpg";
 }

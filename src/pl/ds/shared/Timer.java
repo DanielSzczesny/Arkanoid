@@ -7,6 +7,10 @@ public class Timer {
     private int minutes;
     private int seconds;
 
+    public Timer() {
+
+    }
+
     public Timer(int minutes, int seconds) {
         this.minutes = minutes;
         this.seconds = seconds;
@@ -18,6 +22,14 @@ public class Timer {
 
     public int getSeconds() {
         return seconds;
+    }
+
+    public void setMinutes(long timeInMilisec) {
+        this.minutes = (int) (timeInMilisec / 60000);
+    }
+
+    public void setSeconds(long timeInMilisec) {
+        this.seconds = (int) ((timeInMilisec % 60000) / 1000);
     }
 
     public static int getMinutes(long timeInMilisec) {

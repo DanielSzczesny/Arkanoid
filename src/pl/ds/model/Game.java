@@ -23,7 +23,9 @@ public class Game {
     }
 
     private void init() {
-        timer = new Timer(Timer.getMinutes(time), Timer.getSeconds(time));
+        timer = new Timer();
+        timer.setMinutes(time);
+        timer.setSeconds(time);
     }
 
     public Timer getTimer() {
@@ -43,6 +45,7 @@ public class Game {
     }
 
     public void lostLive() {
+        lives--;
     }
 
     public static class GameBuilder {

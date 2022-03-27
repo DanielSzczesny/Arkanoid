@@ -51,6 +51,7 @@ public class CanvasView extends Composite implements View{
     }
 
     private void addKeyListeners() {
+        gameController.onKeyHit(canvas);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class CanvasView extends Composite implements View{
         context.drawImage(img, 0 , 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         getGameLiveInformations();
         gameController.putBricksToMemory();
-        launchBall();
+        showBall();
         launchRocket();
         gameController.listenToTheGame();
         TimeWrapper.getInstance().nextFrame();
@@ -72,7 +73,7 @@ public class CanvasView extends Composite implements View{
 
     private void getGameLiveInformations() {
         //punkty
-        context.fillRect(POINTS_POSITION_X - 30, POINTS_POSITION_Y -8, CANVAS_WIDTH - 5, 10);
+        context.fillRect(POINTS_POSITION_X - 30, POINTS_POSITION_Y -8, CANVAS_WIDTH - 5, 30);
         context.strokeText("POINTS: ", POINTS_POSITION_X - 28, POINTS_POSITION_Y);
         context.strokeText(String.valueOf(gameController.getGame().getPoints()), POINTS_POSITION_X + 20, POINTS_POSITION_Y);
 
@@ -92,21 +93,44 @@ public class CanvasView extends Composite implements View{
                 + gameController.getGame().getTimer().getSeconds();
     }
 
-    private void launchBall() {
-
-    }
-
     private void launchRocket() {
+        ImageElement img = ImageElement.as(new Image("images/" + ROCKET).getElement());
+        context.drawImage(img, gameController.getRocketXPos(), ROCKET_Y_POS);
+        gameController.rocketMove();
     }
 
     @Override
     public void showBricks(List<Brick> bricks) {
+        for (Brick b: bricks) {
+            ImageElement img = ImageElement.as(new Image("images/" + getBrickColor(b)).getElement());
+            context.drawImage(img, b.getCordinate().getX(),
+                    b.getCordinate().getY(),
+                    BRICK_WIDTH, BRICK_HEIGHT);
 
+        }
+
+    }
+
+    private String getBrickColor(Brick b) {
+        switch (b.getBrickType()) {
+            case YELLOW:
+                return YELLOW_BRICK;
+            case BLUE:
+                if (b.getBrickLives() == 1) return BLUE_TWO_BRICK;
+                else return BLUE_ONE_BRICK;
+            case RED:
+                if (b.getBrickLives() == 1) return RED_THREE_BRICK;
+                else if (b.getBrickLives() == 2) return RED_TWO_BRICK;
+                else return RED_ONE_BRICK;
+        }
+        return YELLOW_BRICK;
     }
 
     @Override
     public void showBall() {
-
+        ImageElement img = ImageElement.as(new Image("images/" + BALL).getElement());
+        context.drawImage(img, gameController.getBallXPos(), gameController.getBallYPos());
+        gameController.launchBall();
     }
 
     @Override

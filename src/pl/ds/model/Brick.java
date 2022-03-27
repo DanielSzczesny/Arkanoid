@@ -41,16 +41,19 @@ public class Brick {
         return cordinate;
     }
 
+    public BrickType getBrickType() {
+        return brickType;
+    }
+
     public static List<Brick> createBricks(int amountOfBricks) {
         List<Brick> bricks = new LinkedList<>();
         Random random = new Random();
         double tempYPos = BRICK_Y_START_POS;
 
         for (int i = 0; i < amountOfBricks; i++) {
-            bricks.add(new Brick(random.nextInt(2),new Cordinate(BRICK_X_START_POS, tempYPos)));
+            bricks.add(new Brick(random.nextInt(BrickType.values().length),new Cordinate(tempYPos ,BRICK_X_START_POS)));
             tempYPos += BRICK_WIDTH;
         }
-
         return bricks;
     }
 }

@@ -42,4 +42,10 @@ public class Cordinate {
                 ", y=" + y +
                 '}';
     }
+
+    public enum CordinateType {
+        TOP, LEFT, RIGHT, BOTTOM
+    }
 }
+
+

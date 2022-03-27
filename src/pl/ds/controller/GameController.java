@@ -48,7 +48,7 @@ public class GameController implements Presenter {
     }
 
     private void init() {
-        bricks = Brick.createBricks(CANVAS_WIDTH / BRICK_WIDTH);
+        bricks = Brick.createBricks((CANVAS_WIDTH / BRICK_WIDTH));
         isStarted = false;
         ballXPos = BALL_START_X_POS;
         ballYPos = BALL_START_Y_POS;
@@ -214,13 +214,13 @@ public class GameController implements Presenter {
     }
 
     private void ballBounceOfBrick() {
-        if (brickHitCoordinate.getCordinateType().equals(CordinateType.BOTTOM)) {
+        if (brickHitCoordinate.getCordinateType().equals(Cordinate.CordinateType.BOTTOM)) {
             ballYSpeed *= -1;
-        } else if (brickHitCoordinate.getCordinateType().equals(CordinateType.TOP)) {
+        } else if (brickHitCoordinate.getCordinateType().equals(Cordinate.CordinateType.LEFT)) {
             ballYSpeed *= -1;
-        } else if (brickHitCoordinate.getCordinateType().equals(CordinateType.LEFT)) {
+        } else if (brickHitCoordinate.getCordinateType().equals(Cordinate.CordinateType.TOP)) {
             ballXSpeed *= -1;
-        } else if (brickHitCoordinate.getCordinateType().equals(CordinateType.RIGHT)) {
+        } else if (brickHitCoordinate.getCordinateType().equals(Cordinate.CordinateType.RIGHT)) {
             ballXSpeed *= -1;
         }
         //TODO dźwięk odbicia
@@ -292,12 +292,12 @@ public class GameController implements Presenter {
      */
     private List<Cordinate> ballCoordinates() {
         ballCoordinates.clear();
-        ballCoordinates.add(new Cordinate(ballXPos + BALL_RADIUS, ballYPos, CordinateType.LEFT));
-        ballCoordinates.add(new Cordinate(ballXPos, ballYPos + BALL_RADIUS, CordinateType.TOP));
+        ballCoordinates.add(new Cordinate(ballXPos + BALL_RADIUS, ballYPos, Cordinate.CordinateType.LEFT));
+        ballCoordinates.add(new Cordinate(ballXPos, ballYPos + BALL_RADIUS, Cordinate.CordinateType.TOP));
         ballCoordinates.add(
-                new Cordinate(ballXPos + BALL_RADIUS, ballYPos + 2 * BALL_RADIUS, CordinateType.BOTTOM));
+                new Cordinate(ballXPos + BALL_RADIUS, ballYPos + 2 * BALL_RADIUS, Cordinate.CordinateType.BOTTOM));
         ballCoordinates.add(
-                new Cordinate(ballXPos + BALL_RADIUS * 2, ballYPos + BALL_RADIUS, CordinateType.RIGHT));
+                new Cordinate(ballXPos + BALL_RADIUS * 2, ballYPos + BALL_RADIUS, Cordinate.CordinateType.RIGHT));
         return ballCoordinates;
     }
 
