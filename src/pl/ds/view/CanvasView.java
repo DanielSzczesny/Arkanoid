@@ -56,11 +56,6 @@ public class CanvasView extends Composite implements View{
 
     @Override
     public void refreshCanvas() {
-        CssColor color = CssColor.make(255, 255, 255);
-
-        context.setFillStyle(color);
-        context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        context.closePath();
         ImageElement img = ImageElement.as(new Image("images/" + BACKGROUND_IMAGE).getElement());
         context.drawImage(img, 0 , 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         getGameLiveInformations();
@@ -73,14 +68,12 @@ public class CanvasView extends Composite implements View{
 
     private void getGameLiveInformations() {
         //punkty
-        context.fillRect(POINTS_POSITION_X - 30, POINTS_POSITION_Y -8, CANVAS_WIDTH - 5, 30);
         context.strokeText("POINTS: ", POINTS_POSITION_X - 28, POINTS_POSITION_Y);
         context.strokeText(String.valueOf(gameController.getGame().getPoints()), POINTS_POSITION_X + 20, POINTS_POSITION_Y);
 
         //czas
-        context.fillRect(POINTS_POSITION_X - 30, POINTS_POSITION_Y + 2, CANVAS_WIDTH - 5, 10);
         context.strokeText(getTime(), POINTS_POSITION_X - 28, POINTS_POSITION_Y + 10);
-        context.fillRect(10, POINTS_POSITION_Y - 8, 50, 10);
+
         context.strokeText("Lives: " + gameController.getGame().getLives(), 12, POINTS_POSITION_Y);
 
         //pozycja myszy
@@ -106,7 +99,6 @@ public class CanvasView extends Composite implements View{
             context.drawImage(img, b.getCordinate().getX(),
                     b.getCordinate().getY(),
                     BRICK_WIDTH, BRICK_HEIGHT);
-
         }
 
     }
@@ -135,11 +127,11 @@ public class CanvasView extends Composite implements View{
 
     @Override
     public void gameOver() {
-
+        context.strokeText("GAME OVER! ", CANVAS_WIDTH / 2.0, CANVAS_HEIGHT / 2.0);
     }
 
     @Override
     public void levelWon() {
-
+        context.strokeText("LEVEL DONE! ", CANVAS_WIDTH / 2.0, CANVAS_HEIGHT / 2.0);
     }
 }

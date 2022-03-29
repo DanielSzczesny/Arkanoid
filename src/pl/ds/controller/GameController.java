@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.Timer;
 import pl.ds.model.*;
+import pl.ds.shared.GameAudio;
 import pl.ds.shared.MouseListener;
 import pl.ds.shared.TimeWrapper;
 import pl.ds.view.CanvasView;
@@ -40,10 +41,12 @@ public class GameController implements Presenter {
 
     private boolean isStarted;
     private boolean ballMove;
+    private boolean isOver;
 
     public GameController(Difficulty difficulty, CanvasView canvasView) {
         this.difficulty = difficulty;
         this.view = canvasView;
+        isOver = false;
         init();
     }
 
@@ -74,6 +77,10 @@ public class GameController implements Presenter {
     private void gameOver() {
         if (game.getLives() == 0 || (game.getTimer().getMinutes() == 0 && game.getTimer().getSeconds() == 0)) {
             stopBall();
+            if (!isOver) {
+                GameAudio.gameOverSound();
+                isOver = true;
+            }
             view.gameOver();
             countdownTimer.cancel();
         }
@@ -82,8 +89,14 @@ public class GameController implements Presenter {
     private void levelDone() {
         if (bricks.size() == 0) {
             stopBall();
+            if (!isOver) {
+                GameAudio.gameDoneSound();
+                isOver = true;
+            }
+
             view.levelWon();
             countdownTimer.cancel();
+
         }
     }
 
@@ -106,7 +119,7 @@ public class GameController implements Presenter {
 
     /**
      * Metody sterowania
-     * @param canvas
+     * @param canvas instancja obiektu na którym jest rysowana gra
      */
     @Override
     public void onKeyHit(Canvas canvas) {
@@ -116,8 +129,8 @@ public class GameController implements Presenter {
             mouseMovementCore();
         });
         canvas.addClickHandler(clickEvent -> clickEvents());
-        canvas.addKeyDownHandler(keyDownEvent -> arrowSteering(keyDownEvent));
-        canvas.addKeyUpHandler(keyUpEvent -> holdRocketWhenKeyUp(keyUpEvent));
+        canvas.addKeyDownHandler(this::arrowSteering);
+        canvas.addKeyUpHandler(this::holdRocketWhenKeyUp);
     }
 
     private void holdRocketWhenKeyUp(KeyUpEvent keyUpEvent) {
@@ -149,7 +162,7 @@ public class GameController implements Presenter {
     }
 
     private void mouseMovementCore() {
-        rocketXPos = MouseListener.getInstance().getMouseX() - ROCKET_WIDTH / 2;
+        rocketXPos = MouseListener.getInstance().getMouseX() - ROCKET_WIDTH / 2.0;
         if (rocketXPos + ROCKET_WIDTH >= CANVAS_WIDTH)
             rocketXPos = CANVAS_WIDTH - ROCKET_WIDTH;
         if (rocketXPos <= 0)
@@ -223,7 +236,7 @@ public class GameController implements Presenter {
         } else if (brickHitCoordinate.getCordinateType().equals(Cordinate.CordinateType.RIGHT)) {
             ballXSpeed *= -1;
         }
-        //TODO dźwięk odbicia
+        GameAudio.ballBounceSound();
     }
 
     private boolean isOnBrick(Brick brick) {
@@ -245,13 +258,13 @@ public class GameController implements Presenter {
             int variable2 = (ROCKET_WIDTH / 20);
 
             for (int j = 0; j < ROCKET_WIDTH + equalizer; j = j + equalizer) {
-                if (ballXPos >= rocketXPos - ROCKET_WIDTH / compressor + j && ballXPos < rocketXPos + equalizer + j) {
-                    ballXSpeed = (-1 * ROCKET_WIDTH / 2 + j) / equalizer * difficulty.ballSpeedMultiplicant() * -1;
+                if (ballXPos >= rocketXPos - (ROCKET_WIDTH * 1.0)/ compressor  + j && ballXPos < rocketXPos + equalizer + j) {
+                    ballXSpeed = (-1 * ROCKET_WIDTH / 2.0 + j) / equalizer * difficulty.ballSpeedMultiplicant() * -1;
                     ballYSpeed = (variable1 - Math.abs(-variable2 + j / equalizer)) * difficulty.ballSpeedMultiplicant();
                 }
             }
             ballYPos = ROCKET_Y_POS - BALL_RADIUS * 2;
-            //TODO dźwięk odbicia
+            GameAudio.ballBounceSound();
         }
     }
 
@@ -268,7 +281,7 @@ public class GameController implements Presenter {
      * @param startYPos pozycja Y w lewym górnym rogu
      * @param endXPos pozycja X w prawym dolnym rogu
      * @param endYPos pozycja Y w prawym dolnym rogu
-     * @return
+     * @return odpowiedź czy wykryta została kolizja
      */
     private boolean bounceCheck(double startXPos, double startYPos, double endXPos, double endYPos) {
         return ballCoordinates().stream().anyMatch(x -> {
@@ -304,11 +317,11 @@ public class GameController implements Presenter {
     private void ballBounceOfBorders() {
         if (ballXPos <= BALL_MIN_X || ballXPos >= BALL_MAX_X) {
             ballXSpeed *= -1;
-            //TODO dźwięk odbicia
+            GameAudio.ballBounceSound();
         }
         if (ballYPos <= BALL_MIN_Y || ballYPos >= BALL_MAX_Y) {
             ballYSpeed *= -1;
-            //TODO dźwięk odbicia
+            GameAudio.ballBounceSound();
         }
 
     }

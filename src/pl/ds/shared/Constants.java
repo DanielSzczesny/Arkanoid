@@ -6,7 +6,7 @@ public class Constants {
 
     //czas
     public static final int ONE_SECOND_IN_MSECOND = 1000; // 1s = 1000ms
-    public static final long DEFAULT_TIME_FOR_GAME = 180000; //3 minuty
+    public static final long DEFAULT_TIME_FOR_GAME = 360000; //6 minut
     public static final int TIME_BETWEEN_FRAMES = 33; //ms ~30FPS
 
     //wielkości
@@ -19,7 +19,7 @@ public class Constants {
     public static final int ROCKET_WIDTH = 120; //łatwiej do obliczeń (-60o - 60o)
 
     //prędkości
-    public static final double BALL_SPEED = 5.0;
+    public static final double BALL_SPEED = 10.0;
     public static final double ROCKET_SPEED = 20.0;
 
     //ramy poruszania się piłki i paletki
@@ -35,9 +35,9 @@ public class Constants {
     public static final int ROCKET_Y_POS = CANVAS_HEIGHT - ROCKET_HEIGHT;
     public static final int ROCKET_X_POS = CANVAS_WIDTH / 2 - ROCKET_WIDTH;
     public static final int BALL_START_X_POS = CANVAS_WIDTH / 2 - BALL_RADIUS;
-    public static final int BALL_START_Y_POS = ROCKET_Y_POS - (5 * BALL_RADIUS);
-    public static final double BRICK_X_START_POS = 0.0;
-    public static final double BRICK_Y_START_POS = 150.0;
+    public static final int BALL_START_Y_POS = ROCKET_Y_POS - (4 * BALL_RADIUS);
+    public static final double BRICK_X_START_POS = 150.0;
+    public static final double BRICK_Y_START_POS = 0.0;
     public static final double POINTS_POSITION_X = CANVAS_WIDTH / 10.0 * 9;
     public static final double POINTS_POSITION_Y = 70;
 
@@ -46,7 +46,7 @@ public class Constants {
     public static final String CANVAS_NOT_SUPPORTED = "Sorry, your browser doesn't support the HTML5 Canvas element";
 
     //zdjęcia
-    public static String BACKGROUND_IMAGE = "background.jpg";
+    public static String BACKGROUND_IMAGE = "background.png";
     public static String YELLOW_BRICK = "yellow.jpg";
     public static String BLUE_ONE_BRICK = "blue_one.jpg";
     public static String BLUE_TWO_BRICK = "blue_two.jpg";
@@ -55,4 +55,9 @@ public class Constants {
     public static String RED_THREE_BRICK = "red_three.jpg";
     public static String BALL = "ball.png";
     public static String ROCKET = "rocket.png";
+
+    //dźwięki
+    public static String BALL_BOUNCE = "ball_hit.mp3";
+    public static String GAME_DONE = "game_win.mp3";
+    public static String GAME_OVER = "game_over.mp3";
 }
