@@ -6,7 +6,7 @@ public class Constants {
 
     //czas
     public static final int ONE_SECOND_IN_MSECOND = 1000; // 1s = 1000ms
-    public static final long DEFAULT_TIME_FOR_GAME = 180000000; //3 minuty
+    public static final long DEFAULT_TIME_FOR_GAME = 180000; //3 minuty
     public static final int TIME_BETWEEN_FRAMES = 33; //ms ~30FPS
 
     //wielkości
@@ -35,9 +35,9 @@ public class Constants {
     public static final int ROCKET_Y_POS = CANVAS_HEIGHT - ROCKET_HEIGHT;
     public static final int ROCKET_X_POS = CANVAS_WIDTH / 2 - ROCKET_WIDTH;
     public static final int BALL_START_X_POS = CANVAS_WIDTH / 2 - BALL_RADIUS;
-    public static final int BALL_START_Y_POS = ROCKET_Y_POS - (4 * BALL_RADIUS);
+    public static final int BALL_START_Y_POS = ROCKET_Y_POS - (5 * BALL_RADIUS);
     public static final double BRICK_X_START_POS = 0.0;
-    public static final double BRICK_Y_START_POS = 0.0;
+    public static final double BRICK_Y_START_POS = 150.0;
     public static final double POINTS_POSITION_X = CANVAS_WIDTH / 10.0 * 9;
     public static final double POINTS_POSITION_Y = 70;
 
@@ -53,6 +53,6 @@ public class Constants {
     public static String RED_ONE_BRICK = "red_one.jpg";
     public static String RED_TWO_BRICK = "red_two.jpg";
     public static String RED_THREE_BRICK = "red_three.jpg";
-    public static String BALL = "ball.jpg";
-    public static String ROCKET = "rocket.jpg";
+    public static String BALL = "ball.png";
+    public static String ROCKET = "rocket.png";
 }

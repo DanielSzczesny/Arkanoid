@@ -8,7 +8,7 @@ public class Timer {
     private int seconds;
 
     public Timer() {
-
+        this.seconds = 59;
     }
 
     public Timer(int minutes, int seconds) {
@@ -45,7 +45,7 @@ public class Timer {
             if (seconds > 0) seconds -= 1;
             else {
                 if (minutes > 0) minutes -= 1;
-                else seconds = 59;
+                seconds = 59;
             }
         }
     }
