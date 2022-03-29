@@ -254,8 +254,8 @@ public class GameController implements Presenter {
         if (isOnRocket()) {
             int equalizer = (ROCKET_WIDTH / 12);
             int compressor = (ROCKET_WIDTH / equalizer);
-            int variable1 = (ROCKET_WIDTH / 17);
-            int variable2 = (ROCKET_WIDTH / 20);
+            int variable1 = (ROCKET_WIDTH / 17);//17
+            int variable2 = (ROCKET_WIDTH / 20);//20
 
             for (int j = 0; j < ROCKET_WIDTH + equalizer; j = j + equalizer) {
                 if (ballXPos >= rocketXPos - (ROCKET_WIDTH * 1.0)/ compressor  + j && ballXPos < rocketXPos + equalizer + j) {
@@ -330,8 +330,8 @@ public class GameController implements Presenter {
      * Start piłki, początek po utracie życia/starcie nowej gry
      */
     private void ballGo() {
-        ballYPos -= ballYSpeed;
-        ballXPos -= ballXSpeed;
+        ballYPos -= (ballYSpeed * difficulty.ballSpeedMultiplicant() / 2);
+        ballXPos -= (ballXSpeed * difficulty.ballSpeedMultiplicant()/ 2);
     }
 
     @Override
@@ -359,5 +359,11 @@ public class GameController implements Presenter {
         return game;
     }
 
+    public double getBallXSpeed() {
+        return ballXSpeed;
+    }
 
+    public double getBallYSpeed() {
+        return ballYSpeed;
+    }
 }

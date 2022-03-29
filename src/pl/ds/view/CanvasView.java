@@ -73,12 +73,13 @@ public class CanvasView extends Composite implements View{
 
         //czas
         context.strokeText(getTime(), POINTS_POSITION_X - 28, POINTS_POSITION_Y + 10);
-
         context.strokeText("Lives: " + gameController.getGame().getLives(), 12, POINTS_POSITION_Y);
 
         //pozycja myszy
         context.strokeText("X: " + MouseListener.getInstance().getMouseX(), 12, POINTS_POSITION_Y + 10);
         context.strokeText("Y: " + MouseListener.getInstance().getMouseY(), 12, POINTS_POSITION_Y + 20);
+        context.strokeText("Ball speed X: " + gameController.getBallXSpeed(), 12, POINTS_POSITION_Y + 30);
+        context.strokeText("Ball speed Y: " + gameController.getBallYSpeed(), 12, POINTS_POSITION_Y + 40);
     }
 
     private String getTime() {

@@ -14,4 +14,6 @@ public interface Presenter {
     void putBricksToMemory();
     double getRocketXPos();
     Game getGame();
+    double getBallXSpeed();
+    double getBallYSpeed();
 }
