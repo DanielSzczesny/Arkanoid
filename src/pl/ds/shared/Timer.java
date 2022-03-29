@@ -32,14 +32,6 @@ public class Timer {
         this.seconds = (int) ((timeInMilisec % 60000) / 1000);
     }
 
-    public static int getMinutes(long timeInMilisec) {
-        return (int) (timeInMilisec / 60000);
-    }
-
-    public static int getSeconds(long timeInMilisec) {
-        return (int) ((timeInMilisec % 60000) / 1000);
-    }
-
     public void timeElapse() {
         if (seconds > 0 || minutes > 0) {
             if (seconds > 0) seconds -= 1;

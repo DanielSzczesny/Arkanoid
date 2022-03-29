@@ -24,11 +24,6 @@ public class TimeWrapper {
             throw new IllegalStateException("Cannot create new instance, please use getInstance() method instead.");
     }
 
-    public void runTimer() {
-        this.timer.run();
-        this.clock.run();
-    }
-
     public void resetFrame() {
         this.frameNumber = 0;
     }
