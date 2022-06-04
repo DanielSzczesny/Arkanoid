@@ -1,5 +1,6 @@
 package pl.ds.view;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import pl.ds.model.Brick;
 

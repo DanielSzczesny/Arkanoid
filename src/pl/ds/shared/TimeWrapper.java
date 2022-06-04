@@ -2,12 +2,15 @@ package pl.ds.shared;
 
 import com.google.gwt.user.client.Timer;
 
+import java.time.LocalTime;
+
 public class TimeWrapper {
 
     private static TimeWrapper instance;
     private long frameNumber;
     private Timer timer;
     private Timer clock;
+
 
     public static TimeWrapper getInstance() {
         if (instance == null) {
@@ -44,6 +47,7 @@ public class TimeWrapper {
     public void nextFrame() {
         frameNumber++;
     }
+
     public void setClock(Timer clock) {
         this.clock = clock;
     }

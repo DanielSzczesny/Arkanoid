@@ -1,8 +1,11 @@
 package pl.ds.view;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.*;
 import pl.ds.controller.GameController;
 import pl.ds.model.Brick;
@@ -10,6 +13,7 @@ import pl.ds.model.Difficulty;
 import pl.ds.shared.MouseListener;
 import pl.ds.shared.TimeWrapper;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import static pl.ds.shared.Constants.*;
@@ -65,13 +69,21 @@ public class CanvasView extends Composite implements View{
 
     @Override
     public void refreshCanvas() {
-        context.drawImage(imgBackground, 0 , 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        showGameLiveInformation();
-        gameController.putBricksToMemory();
-        showBall();
-        launchRocket();
-        gameController.listenToTheGame();
-        TimeWrapper.getInstance().nextFrame();
+//        AnimationScheduler.AnimationCallback callback = v1 -> {
+            context.drawImage(imgBackground, 0 , 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            showGameLiveInformation();
+            gameController.putBricksToMemory();
+            showBall();
+            launchRocket();
+            gameController.listenToTheGame();
+            TimeWrapper.getInstance().nextFrame();
+//        };
+
+//        return callback;
+//        Timestamp timestamp = Timestamp.valueOf(String.valueOf(DateTimeFormat.getFormat("YYYY-MM-DD HH:mm:ss.S AM/PM z")));
+//
+//        long timestampAfter = timestamp.getNanos();
+//        return this;
     }
 
     private void showGameLiveInformation() {

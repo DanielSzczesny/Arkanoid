@@ -93,10 +93,8 @@ public class GameController implements Presenter {
                 GameAudio.gameDoneSound();
                 isOver = true;
             }
-
             view.levelWon();
             countdownTimer.cancel();
-
         }
     }
 
